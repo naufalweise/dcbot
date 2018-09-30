@@ -1,0 +1,28 @@
+{
+  "name": "dcbot",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/naufalweise/dcbot.git"
+  },
+  "author": "naufal",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/naufalweise/dcbot/issues"
+  },
+  "homepage": "https://github.com/naufalweise/dcbot#readme",
+  "dependencies": {
+    "discord.js": "^11.4.2",
+    "npm": "^6.4.1"
+  },
+  "engines": {
+    "node": "8.*",
+    "npm": "5.*"
+  }
+}

@@ -14,17 +14,18 @@ client.on('ready', () => {
 */
 
 client.on('message', message => {
-  var messageArray = message.content.split(' ');
-  var command = messageArray[0];
-  var args = messageArray.splice(1);
+  let args = message.content.split(' ');
+  let command = args.splice(0,1)[0];
 
-  if (command && args) {
+  if (command) {
+    console.log(command);
     switch (command) {
       case 'roll':
-        message.channel.send(roll(args));
+        message.channel.send(roll(args[0]));
         break;
     
       case 'ping':
+        console.log('ping');
         message.channel.send('pong');
         break;
 
@@ -32,17 +33,29 @@ client.on('message', message => {
         break;
     }
   }
+  else {
+    console.log('fail');
+  }
 });
 
 var Alea = require('alea');
-var prng = new Alea('meme');
+var prng = new Alea('hello');
 
 function roll(argument) {
+  if (!argument) {
+    return
+  }
+
+  console.log('argument = '+argument);
   let notation = argument;
-  const diceNot = /\d*(d\d+)/;
-  while (diceNot.match(notation)) {
-    let match = diceNot.exec(notation)
-    notation.replace(diceNot,getRoll(match));
+  const diceRegex = /\d*(d\d+)/;
+
+  let isMatch = diceRegex.test(notation);
+  while (isMatch) {
+    let match = diceRegex.exec(notation)[0];
+    notation = notation.replace(diceRegex,getRoll(match));
+    console.log('notation'+notation);
+    isMatch = diceRegex.test(notation);
   }
   return notation;
 }
@@ -50,9 +63,16 @@ function roll(argument) {
 function getRoll(notation) {
   //AdX
   let variable = notation.split('d');
-  let diceFace = variable.splice(variable.length);
+  let diceFace = variable.splice(variable.length - 1)[0];
   let diceAmount = variable[0] || 1;
-  
-  return prng() * diceFace * diceAmount;
+  let result = "";
+  for(let i=0; i<diceAmount; i++) {
+
+    result += Math.floor(prng() * diceFace) + 1;
+    if (diceAmount-i != 1) {
+      result+= ", "
+    }
+  }
+  return "("+result+")";
 }
 client.login('NDkzMDY0OTI3Mzk3OTM3MTY1.DqLSGg.QrVZ5t9fO5fzHtG0HQ7U9uNqa0c');

@@ -14,7 +14,7 @@ client.on('ready', () => {
 */
 
 client.on('message', message => {
-  var messageArray = mesage.content.split(' ');
+  var messageArray = message.content.split(' ');
   var command = messageArray[0];
   var args = messageArray.splice(1);
 

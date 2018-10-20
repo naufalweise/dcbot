@@ -6,13 +6,13 @@ client.on('ready', () => {
   console.log('I am ready!');
 });
 
-client.on('message', message => {
+/* client.on('message', message => {
   if (message.content === 'ping') {
     message.channel.send('pong');
   }
 });
+*/
 
-client. on
 client.on('message', message => {
   var messageArray = mesage.content.split(' ');
   var command = messageArray[0];
@@ -21,36 +21,38 @@ client.on('message', message => {
   if (command && args) {
     switch (command) {
       case 'roll':
-        roll(args)
+        message.channel.send(roll(args));
         break;
     
+      case 'ping':
+        message.channel.send('pong');
+        break;
+
       default:
         break;
     }
-    message.channel.send('pong');
   }
 });
 
 var Alea = require('alea');
-var prng = new Alea();
+var prng = new Alea('meme');
 
 function roll(argument) {
-  var result = [];
-  var diceNotation = argument.split('+');
-  diceNotation.map(die => {
-    var dieAmount;
-    var dieSide;
-    if (die.split('d').length == 1) {
-      dieAmount = 1;
-      dieSide = die.split('d')[0];
-    } else {
-        dieAmount = die.split('d')[0];
-        dieSide = die.split('d')[1]
-        result.push(prng(dieAmount,dieSide))
-    }
-  });
-
-
+  let notation = argument;
+  const diceNot = /\d*(d\d+)/;
+  while (diceNot.match(notation)) {
+    let match = diceNot.exec(notation)
+    notation.replace(diceNot,getRoll(match));
+  }
+  return notation;
 }
 
+function getRoll(notation) {
+  //AdX
+  let variable = notation.split('d');
+  let diceFace = variable.splice(variable.length);
+  let diceAmount = variable[0] || 1;
+  
+  return prng() * diceFace * diceAmount;
+}
 client.login('NDkzMDY0OTI3Mzk3OTM3MTY1.DqLSGg.QrVZ5t9fO5fzHtG0HQ7U9uNqa0c');

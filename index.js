@@ -18,23 +18,18 @@ client.on('message', message => {
   let command = args.splice(0,1)[0];
 
   if (command) {
-    console.log(command);
     switch (command) {
       case 'roll':
         message.channel.send(roll(args[0]));
         break;
     
       case 'ping':
-        console.log('ping');
         message.channel.send('pong');
         break;
 
       default:
         break;
     }
-  }
-  else {
-    console.log('fail');
   }
 });
 
@@ -45,16 +40,13 @@ function roll(argument) {
   if (!argument) {
     return
   }
-
-  console.log('argument = '+argument);
+  
   let notation = argument;
   const diceRegex = /\d*(d\d+)/;
-
   let isMatch = diceRegex.test(notation);
   while (isMatch) {
     let match = diceRegex.exec(notation)[0];
     notation = notation.replace(diceRegex,getRoll(match));
-    console.log('notation'+notation);
     isMatch = diceRegex.test(notation);
   }
   return notation;
@@ -75,4 +67,5 @@ function getRoll(notation) {
   }
   return "("+result+")";
 }
-client.login('NDkzMDY0OTI3Mzk3OTM3MTY1.DqLSGg.QrVZ5t9fO5fzHtG0HQ7U9uNqa0c');
+
+client.login(process.env.botToken || 'NDkzMDY0OTI3Mzk3OTM3MTY1.Dq12dA.dVl5AUHbOUo24_I5DuDdm4aPzcw');
